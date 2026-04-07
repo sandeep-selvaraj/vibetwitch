@@ -64,9 +64,9 @@ function ConversationBubble({ event }: { event: ParsedEvent }) {
           <div className="flex items-center gap-1.5 text-xs font-medium text-text-secondary mb-2">
             <Bot className="h-3 w-3" />
             <span>Claude</span>
-            {payload.model && (
+            {typeof payload.model === 'string' && (
               <span className="text-text-secondary/50 ml-1">
-                ({payload.model as string})
+                ({payload.model})
               </span>
             )}
           </div>
@@ -84,15 +84,15 @@ function ConversationBubble({ event }: { event: ParsedEvent }) {
             <span className="font-medium text-accent">
               {payload.tool_name as string}
             </span>
-            {payload.file_path && (
+            {typeof payload.file_path === 'string' && (
               <span className="text-text-secondary font-mono truncate">
-                {payload.file_path as string}
+                {payload.file_path}
               </span>
             )}
           </div>
-          {payload.summary && (
+          {typeof payload.summary === 'string' && (
             <p className="text-xs text-text-secondary mt-1 ml-5">
-              {payload.summary as string}
+              {payload.summary}
             </p>
           )}
         </div>
