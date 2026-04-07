@@ -1,0 +1,48 @@
+###############################################
+# MediaMTX config for VibeTwitch
+###############################################
+
+# Logging
+logLevel: info
+logDestinations: [stdout]
+
+# RTMP server (streamers push here via OBS)
+rtmp: yes
+rtmpAddress: :1935
+
+# HLS server (viewers consume from here)
+hls: yes
+hlsAddress: :8888
+hlsAlwaysRemux: yes
+hlsVariant: lowLatency
+hlsSegmentCount: 7
+hlsSegmentDuration: 1s
+hlsPartDuration: 200ms
+hlsAllowOrigins: ['*']
+
+# WebRTC (optional, for lower latency later)
+webrtc: yes
+webrtcAddress: :8889
+
+# RTSP
+rtsp: yes
+rtspAddress: :8554
+
+# API
+api: yes
+apiAddress: :9997
+
+# Authentication disabled — stream keys are long random tokens (32+ chars)
+# which act as de-facto passwords. The API validates ownership on go-live.
+# In production, don't expose RTMP port (1935) publicly without auth.
+# authMethod: http
+# authHTTPAddress: http://172.23.0.1:3001/api/hooks/mediamtx-auth
+
+# Path defaults
+pathDefaults:
+  record: no
+
+# Paths
+paths:
+  all_others:
+    source: publisher
