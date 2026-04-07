@@ -1,0 +1,41 @@
+###############################################
+# MediaMTX config for VibeTwitch (Production)
+###############################################
+
+logLevel: info
+logDestinations: [stdout]
+
+# RTMP server (streamers push here via OBS)
+rtmp: yes
+rtmpAddress: :1935
+
+# HLS server (viewers consume from here)
+hls: yes
+hlsAddress: :8888
+hlsAlwaysRemux: yes
+hlsVariant: lowLatency
+hlsSegmentCount: 7
+hlsSegmentDuration: 1s
+hlsPartDuration: 200ms
+hlsAllowOrigins: ['*']
+
+# Disable unused protocols in production
+webrtc: no
+rtsp: no
+
+# API
+api: yes
+apiAddress: :9997
+
+# Authentication — webhook calls the API server running on the same host
+authMethod: http
+authHTTPAddress: http://127.0.0.1:8000/api/hooks/mediamtx-auth
+
+# Path defaults
+pathDefaults:
+  record: no
+
+# Paths
+paths:
+  all_others:
+    source: publisher
