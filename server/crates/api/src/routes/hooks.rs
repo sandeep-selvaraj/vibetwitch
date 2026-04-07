@@ -54,7 +54,7 @@ async fn mediamtx_auth(
             match queries::streams::find_by_stream_key(&state.db, stream_key).await {
                 Ok(Some(stream)) => {
                     // Auto-set stream to live
-                    let hls_url = format!("http://localhost:8888/live/{}/index.m3u8", stream_key);
+                    let hls_url = format!("{}/live/{}/index.m3u8", state.config.hls_base_url, stream_key);
                     if let Err(e) = queries::streams::set_live(&state.db, stream.id, &hls_url).await {
                         tracing::error!("Failed to set stream live: {e}");
                     } else {

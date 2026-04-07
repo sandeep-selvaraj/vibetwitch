@@ -161,12 +161,11 @@ async fn go_live(
         return Err(AppError::Unauthorized);
     }
 
-    // HLS URL served by MediaMTX on port 8888
-    let hls_url = format!("http://localhost:8888/live/{}/index.m3u8", stream.stream_key);
+    let hls_url = format!("{}/live/{}/index.m3u8", state.config.hls_base_url, stream.stream_key);
     queries::streams::set_live(&state.db, id, &hls_url).await?;
 
     Ok(Json(GoLiveResponse {
-        rtmp_url: format!("rtmp://localhost:1935/live/{}", stream.stream_key),
+        rtmp_url: format!("{}/live/{}", state.config.rtmp_base_url, stream.stream_key),
         stream_key: stream.stream_key,
     }))
 }

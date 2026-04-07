@@ -7,6 +7,7 @@ mod ws;
 
 use axum::Router;
 use tower_http::cors::CorsLayer;
+use tower_http::services::{ServeDir, ServeFile};
 use tower_http::trace::TraceLayer;
 use tracing_subscriber::EnvFilter;
 
@@ -29,6 +30,9 @@ async fn main() {
 
     let state = state::AppState::new(pool, config.clone());
 
+    // Serve frontend static files with SPA fallback
+    let spa = ServeDir::new("static").fallback(ServeFile::new("static/index.html"));
+
     let app = Router::new()
         .nest("/api", routes::router())
         .nest("/ws", ws::chat::router()
@@ -36,6 +40,7 @@ async fn main() {
             .merge(ws::ingest::router())
         )
         .with_state(state)
+        .fallback_service(spa)
         .layer(TraceLayer::new_for_http())
         .layer(
             CorsLayer::very_permissive(), // tighten for production

@@ -5,6 +5,8 @@ pub struct Config {
     pub database_url: String,
     pub jwt_secret: String,
     pub port: u16,
+    pub hls_base_url: String,
+    pub rtmp_base_url: String,
 }
 
 impl Config {
@@ -18,6 +20,10 @@ impl Config {
                 .ok()
                 .and_then(|p| p.parse().ok())
                 .unwrap_or(3001),
+            hls_base_url: env::var("HLS_BASE_URL")
+                .unwrap_or_else(|_| "http://localhost:8888".into()),
+            rtmp_base_url: env::var("RTMP_BASE_URL")
+                .unwrap_or_else(|_| "rtmp://localhost:1935".into()),
         }
     }
 }
